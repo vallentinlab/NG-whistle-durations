@@ -1,4 +1,4 @@
-1) Control duration for model.py:
+1) Control duration for model.py
 
 This script analyzes control (non-playback) nightingale whistle data by fitting Gaussian Mixture Models (GMMs) to whistle durations at both the global and per-bird levels. It reads a pickled dataset (all_birds.pkl), extracts per-song and per-whistle summaries, and automatically determines the optimal number of mixture components for each case. It then generates three main outputs: (1) gmm_median_duration_all_birds.pdf, showing the overall distribution of whistle durations across birds (see Fig S3A); (2) gmm_durations_per_bird.pdf, showing duration distributions for each bird; and (3) scatter_mu_sigma_gmm_color_polygons.pdf, showing the clustering of duration parameters across birds (see Fig S3B). The script also saves component parameters and cluster polygons in CSV, JSON, and Excel formats, and simulates new birds by sampling from these clusters. To run it, place Control prev season/all_birds.pkl in the specified path and execute the script in an environment with numpy, pandas, matplotlib, scikit-learn, and scipy installed.
 
@@ -8,10 +8,13 @@ This script fits Gaussian Mixture Models (GMMs) to nightingale whistle pitch fro
 
 3) Temporal modulation model.py
 
-This script simulates playback-driven whistle duration responses using per-bird (μ, σ) parameters read from simulated_bird_params_duration.xlsx (fast/medium/slow modes), then compares an engagement policy (β=1, δ=0.5) against control (β=0) in a figure combining KDEs and jittered samples: it saves temporal_modulation_model_comparison.pdf (see Fig 1F). It also provides an attractor landscape plot for duration (see Fig 1E). To run: keep the Excel produced by the durations pipeline in the working directory; use Python with numpy, pandas, matplotlib, and scikit-learn. The script prints per-region and pooled control summaries (n, median, MAD) to stdout.
+This script simulates playback-driven whistle duration responses using per-bird (μ, σ) parameters read from simulated_bird_params_duration.xlsx (fast/medium/slow modes), then compares an engagement policy (β=1, δ=0.5) against control (β=0, see Fig S3C) in a figure combining KDEs and jittered samples: it saves temporal_modulation_model_comparison.pdf (see Fig 1F). It also provides an attractor landscape plot for duration (see Fig 1E). To run: keep the Excel produced by the durations pipeline in the working directory; use Python with numpy, pandas, matplotlib, and scikit-learn. The script prints per-region and pooled control summaries (n, median, MAD) to stdout.
 
 4) Pitch modulation model.py
 
 This script simulates pitch responses to whistle playbacks using per-bird (μ, σ, optional weight) loaded from simulated_bird_params_pitch.xlsx, applies a distance-decay attractor to bias component selection near the playback, and compares an attractor model (β>0, δ blending with control) to no-attractor (β=0) in a two-panel figure saved as pitch_modulation_results_model_comparison.pdf (see Fig 2D); it also renders a per-bird attractor landscape K_k(x) over 1000–9000 Hz with magma coloring and log-scaled x (see Fig 2B). To run: keep the Excel file in the working directory; requirements are numpy, pandas, matplotlib, and scikit-learn. 
 
-5) 
+5) Pitch and duration modulation model
+
+This script builds a control 2D KDE over per-song medians (duration, pitch) from all_birds.pkl, derives duration-conditioned (and pitch-conditioned) support maps, and simulates joint responses with blended probabilities: an attractor gate (β_dur, β_pitch) mixed with control priors (δ). Duration and pitch uses per-bird Gaussian components from simulated_bird_params_*.xlsx. It produces Exp. 2 simulation figures (Duration→Pitch and Pitch→Duration: KDE and KDE-ratio panels, see Fig 3C, D and Fig S3D), a sweep figure for fixed duration, and duration-only summariesRequirements: numpy, pandas, matplotlib, seaborn, scipy. 
+
